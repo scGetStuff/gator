@@ -2,12 +2,8 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 )
-
-var home, _ = os.UserHomeDir()
-var cfgFile = home + "/.gatorconfig.json"
 
 type Config struct {
 	DbURL           string `json:"db_url"`
@@ -16,6 +12,11 @@ type Config struct {
 
 func Read() (Config, error) {
 	c := Config{}
+
+	cfgFile, err := getConfigFilePath()
+	if err != nil {
+		return c, err
+	}
 
 	bytes, err := os.ReadFile(cfgFile)
 	if err != nil {
@@ -30,16 +31,34 @@ func Read() (Config, error) {
 	return c, nil
 }
 
-func (c *Config) SetUser(name string) {
+func (c *Config) SetUser(name string) error {
 	c.CurrentUserName = name
-	write(*c)
+	err := write(*c)
+
+	return err
 }
 
-func write(c Config) {
+func write(c Config) error {
 	stuff, err := json.Marshal(c)
 	if err != nil {
-		fmt.Print(err)
-		return
+		return err
 	}
+
+	cfgFile, err := getConfigFilePath()
+	if err != nil {
+		return err
+	}
+
 	os.WriteFile(cfgFile, stuff, 0666)
+
+	return nil
+}
+
+func getConfigFilePath() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+
+	return home + "/.gatorconfig.json", nil
 }
