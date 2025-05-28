@@ -53,6 +53,7 @@ func initCommandMap() c.Commands {
 	cmds := c.Commands{CmdFuncs: map[string]func(*c.State, c.Command) error{}}
 	cmds.Register("login", c.HandlerLogin)
 	cmds.Register("register", c.HandlerRegister)
+	cmds.Register("reset", c.HandlerReset)
 
 	return cmds
 }
