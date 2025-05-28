@@ -1,18 +1,31 @@
 package main
 
 import (
-	"fmt"
+	"database/sql"
+	"log"
 	"os"
+
+	_ "github.com/lib/pq"
 
 	c "github.com/scGetStuff/gator/internal/command"
 	"github.com/scGetStuff/gator/internal/config"
+	"github.com/scGetStuff/gator/internal/database"
 )
 
 func main() {
 	cfg, err := config.Read()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatalf("error reading config: %v", err)
 	}
+
+	db, err := sql.Open("postgres", cfg.DbURL)
+	if err != nil {
+		log.Fatalf("error connecting to db: %v", err)
+	}
+	defer db.Close()
+
+	dbQueries := database.New(db)
+	state := &c.State{Db: dbQueries, Cfg: &cfg}
 
 	// L2
 	// cfg.SetUser("scott")
@@ -23,17 +36,14 @@ func main() {
 	// fmt.Println(cfg)
 
 	// L3
-	state := c.State{Cfg: &cfg}
 	cmds := initCommandMap()
 	if len(os.Args) < 2 {
-		fmt.Println("not enough stuff to do any stuff with")
-		os.Exit(1)
+		log.Fatal("not enough stuff to do any stuff with")
 	}
 	command := c.Command{Name: os.Args[1], Args: os.Args[2:]}
-	err = cmds.Run(&state, command)
+	err = cmds.Run(state, command)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	os.Exit(0)
@@ -42,6 +52,7 @@ func main() {
 func initCommandMap() c.Commands {
 	cmds := c.Commands{CmdFuncs: map[string]func(*c.State, c.Command) error{}}
 	cmds.Register("login", c.HandlerLogin)
+	cmds.Register("register", c.HandlerRegister)
 
 	return cmds
 }
