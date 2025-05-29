@@ -54,6 +54,7 @@ func initCommandMap() c.Commands {
 	cmds.Register("login", c.HandlerLogin)
 	cmds.Register("register", c.HandlerRegister)
 	cmds.Register("reset", c.HandlerReset)
+	cmds.Register("users", c.HandlerUsers)
 
 	return cmds
 }
