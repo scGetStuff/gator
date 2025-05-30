@@ -48,6 +48,7 @@ func initCommandMap() c.Commands {
 	cmds.Register("users", c.HandlerUsers)
 	cmds.Register("agg", c.HandlerAgg)
 	cmds.Register("addfeed", c.HandlerAddfeed)
+	cmds.Register("feeds", c.HandlerFeeds)
 
 	return cmds
 }
