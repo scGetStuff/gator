@@ -27,15 +27,6 @@ func main() {
 	dbQueries := database.New(db)
 	state := &c.State{Db: dbQueries, Cfg: &cfg}
 
-	// L2
-	// cfg.SetUser("scott")
-	// cfg, err = config.Read()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(cfg)
-
-	// L3
 	cmds := initCommandMap()
 	if len(os.Args) < 2 {
 		log.Fatal("not enough stuff to do any stuff with")
@@ -55,6 +46,7 @@ func initCommandMap() c.Commands {
 	cmds.Register("register", c.HandlerRegister)
 	cmds.Register("reset", c.HandlerReset)
 	cmds.Register("users", c.HandlerUsers)
+	cmds.Register("agg", c.HandlerAgg)
 
 	return cmds
 }
