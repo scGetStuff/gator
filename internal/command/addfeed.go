@@ -2,7 +2,6 @@ package command
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -33,8 +32,13 @@ func HandlerAddfeed(s *State, cmd Command) error {
 	}
 
 	// fmt.Print(feed)
-	data, _ := json.Marshal(feed)
-	fmt.Println(string(data))
+	// data, _ := json.Marshal(feed)
+	// fmt.Println(string(data))
+
+	err = doFollow(s, user.ID, feed.ID)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
