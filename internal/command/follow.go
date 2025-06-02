@@ -9,14 +9,9 @@ import (
 	"github.com/scGetStuff/gator/internal/database"
 )
 
-func HandlerFollow(s *State, cmd Command) error {
+func HandlerFollow(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("the follow handler expects one argument, the feed URL")
-	}
-
-	user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user: %w", err)
 	}
 
 	feed, err := s.Db.GetFeed(context.Background(), cmd.Args[0])

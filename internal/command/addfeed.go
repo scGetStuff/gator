@@ -9,14 +9,9 @@ import (
 	"github.com/scGetStuff/gator/internal/database"
 )
 
-func HandlerAddfeed(s *State, cmd Command) error {
+func HandlerAddfeed(s *State, cmd Command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("the addfeed handler expects two arguments, the feed name and URL")
-	}
-
-	user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user: %w", err)
 	}
 
 	feed, err := s.Db.CreateFeed(context.Background(), database.CreateFeedParams{

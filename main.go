@@ -47,10 +47,11 @@ func initCommandMap() c.Commands {
 	cmds.Register("reset", c.HandlerReset)
 	cmds.Register("users", c.HandlerUsers)
 	cmds.Register("agg", c.HandlerAgg)
-	cmds.Register("addfeed", c.HandlerAddfeed)
 	cmds.Register("feeds", c.HandlerFeeds)
-	cmds.Register("follow", c.HandlerFollow)
-	cmds.Register("following", c.HandlerFollowing)
+
+	cmds.Register("addfeed", c.MiddlewareLoggedIn(c.HandlerAddfeed))
+	cmds.Register("follow", c.MiddlewareLoggedIn(c.HandlerFollow))
+	cmds.Register("following", c.MiddlewareLoggedIn(c.HandlerFollowing))
 
 	return cmds
 }
