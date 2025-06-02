@@ -51,6 +51,7 @@ func initCommandMap() c.Commands {
 
 	cmds.Register("addfeed", c.MiddlewareLoggedIn(c.HandlerAddfeed))
 	cmds.Register("follow", c.MiddlewareLoggedIn(c.HandlerFollow))
+	cmds.Register("unfollow", c.MiddlewareLoggedIn(c.HandlerUnFollow))
 	cmds.Register("following", c.MiddlewareLoggedIn(c.HandlerFollowing))
 
 	return cmds
