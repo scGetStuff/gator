@@ -53,6 +53,7 @@ func initCommandMap() c.Commands {
 	cmds.Register("follow", c.MiddlewareLoggedIn(c.HandlerFollow))
 	cmds.Register("unfollow", c.MiddlewareLoggedIn(c.HandlerUnFollow))
 	cmds.Register("following", c.MiddlewareLoggedIn(c.HandlerFollowing))
+	cmds.Register("browse", c.MiddlewareLoggedIn(c.HandlerBrowse))
 
 	return cmds
 }
