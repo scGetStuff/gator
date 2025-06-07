@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strings"
 
 	_ "github.com/lib/pq"
 
@@ -31,7 +32,7 @@ func main() {
 	if len(os.Args) < 2 {
 		log.Fatal("not enough stuff to do any stuff with")
 	}
-	command := c.Command{Name: os.Args[1], Args: os.Args[2:]}
+	command := c.Command{Name: strings.ToLower(os.Args[1]), Args: os.Args[2:]}
 	err = cmds.Run(state, command)
 	if err != nil {
 		log.Fatal(err)
