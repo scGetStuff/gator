@@ -30,7 +30,7 @@ func main() {
 
 	cmds := initCommandMap()
 	if len(os.Args) < 2 {
-		log.Fatal("not enough stuff to do any stuff with")
+		log.Fatal("see the README.md for supported commands")
 	}
 	command := c.Command{Name: strings.ToLower(os.Args[1]), Args: os.Args[2:]}
 	err = cmds.Run(state, command)
@@ -43,12 +43,12 @@ func main() {
 
 func initCommandMap() c.Commands {
 	cmds := c.Commands{CmdFuncs: map[string]func(*c.State, c.Command) error{}}
-	cmds.Register("login", c.HandlerLogin)
 	cmds.Register("register", c.HandlerRegister)
+	cmds.Register("login", c.HandlerLogin)
 	cmds.Register("reset", c.HandlerReset)
 	cmds.Register("users", c.HandlerUsers)
-	cmds.Register("agg", c.HandlerAgg)
 	cmds.Register("feeds", c.HandlerFeeds)
+	cmds.Register("agg", c.HandlerAgg)
 
 	cmds.Register("addfeed", c.MiddlewareLoggedIn(c.HandlerAddfeed))
 	cmds.Register("follow", c.MiddlewareLoggedIn(c.HandlerFollow))
