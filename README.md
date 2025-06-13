@@ -3,18 +3,34 @@
 boot.dev "Build a Blog Aggregator in Go" project  
 https://www.boot.dev/lessons/14b7179b-ced3-4141-9fa5-e67dbc3e5242
 
-# TODO: CH5 L3 does not make sense
+# Notes
 
-it is suposd to be develper documentation, but
+## TODO
 
--   there is no mention of the `goose` depencency for migration
--   source files are required to run the migration to create the tables
--   they would never run `go install`, becaues the binary is usless without a complete DB
+-   user name is case sensitive
+-   there was a note in the lesson about handling date format from feeds, all the tests I ran were consistant, so I didn't do any extra yet
+
+## doing an install does not make sense
+
+-   I don't see why someone would install the app, binary is ulsess by itself
+-   they need the source `sql/schema` files to create the tables
+-   so eiter have the repo localy like a sane person; or dig around in the install files, `go/pkg/mod/github.com/...`
 
 # dependencies
 
--   Go https://webinstall.dev/go/
--   Postgres
+## Go
+
+https://webinstall.dev/go/
+
+## goose
+
+I had to run this twice, it has a bunch of dependencies
+
+```shell
+go install github.com/pressly/goose/v3/cmd/goose@latest
+```
+
+## Postgres
 
 ```shell
 # install postgres
@@ -36,7 +52,7 @@ sudo service postgresql start
 
 ```json
 {
-    "db_url": "postgres://example"
+    "db_url": "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable"
 }
 ```
 
@@ -49,25 +65,28 @@ CREATE DATABASE gator;
 \c gator
 # set DB user password
 ALTER USER postgres PASSWORD 'postgres';
-# test, hit q to get back
+# test
 SELECT version();
 # exit psql
 exit
-```
-
--   create tables  
-    `goose` migration program
-
-```shell
-
 ```
 
 # install app
 
 ```shell
 go install github.com/scGetStuff/gator@latest
+```
 
-# test
+## create tables
+
+```shell
+cd sql/schema
+goose postgres "postgres://postgres:postgres@localhost:5432/gator" up
+```
+
+## test
+
+```shell
 gator
 ```
 
@@ -75,25 +94,15 @@ gator
 
 -   `register <NAME>`
 -   `login <NAME>`
--   `reset` clears the data from
--   users
--   feeds
--   agg
+-   `reset` clears the data
+-   `users` lists all registered
+-   `addfeed "<NAME>" "<URL>"` add feed to the DB
+-   `feeds` lists feed records
 
--   addfeed
--   follow
--   unfollow
--   following
--   browse
-    register
-    login
-    reset
-    users
-    feeds
-    agg
+-   `follow`
+-   `unfollow`
+-   `following`
+-   `browse`
 
-addfeed
-follow
-unfollow
-following
-browse
+-   `agg <time>` infinite loop storing posts to the DB from any feeds added  
+    https://pkg.go.dev/time#ParseDuration
