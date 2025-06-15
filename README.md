@@ -98,11 +98,9 @@ gator
 -   `users` lists all registered
 -   `addfeed "<NAME>" "<URL>"` add feed to the DB
 -   `feeds` lists feed records
-
--   `follow`
--   `unfollow`
--   `following`
--   `browse`
-
+-   `follow <URL>` current user follows the feed matching URL
+-   `unfollow <URL>` current user unfollows the feed matching URL
+-   `following` lists all feeds the current user is following
 -   `agg <time>` infinite loop storing posts to the DB from any feeds added  
     https://pkg.go.dev/time#ParseDuration
+-   `browse <LIMIT>` display optional LIMIT number of posts from feeds the current user is following
