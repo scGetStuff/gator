@@ -103,4 +103,4 @@ gator
 -   `following` lists all feeds the current user is following
 -   `agg <time>` infinite loop storing posts to the DB from any feeds added  
     https://pkg.go.dev/time#ParseDuration
--   `browse <LIMIT>` display optional LIMIT number of posts from feeds the current user is following
+-   `browse <LIMIT>` display most recent posts from the feeds the user is following
