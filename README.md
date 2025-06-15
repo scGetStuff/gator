@@ -92,11 +92,11 @@ gator
 
 # commands to make gator do stuff
 
--   `register <NAME>`
--   `login <NAME>`
+-   `register <NAME>` adds user and login
+-   `login <NAME>` switch to a different user
 -   `reset` clears the data
--   `users` lists all registered
--   `addfeed "<NAME>" "<URL>"` add feed to the DB
+-   `users` lists all registered users
+-   `addfeed "<NAME>" <URL>` add feed to the DB
 -   `feeds` lists feed records
 -   `follow <URL>` current user follows the feed matching URL
 -   `unfollow <URL>` current user unfollows the feed matching URL
